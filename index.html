@@ -1,0 +1,273 @@
+<html lang="es" suppresshydrationwarning="true" data-lt-installed="true"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tobías 18</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&amp;display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Montserrat', sans-serif;
+display:flex;
+justify-content:center;
+}
+
+.container{
+position:relative;
+width:420px;
+}
+
+/* FONDO */
+
+.fondo{
+width:100%;
+height:auto;
+display:block;
+}
+
+/* FECHA Y HORA */
+
+.fecha-hora {
+    position: absolute;
+    top: 250px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-weight: 800;
+    color: #000000;
+}
+
+.fecha{
+text-align:center;
+font-size:48px;
+}
+
+.fecha span{
+display:block;
+font-size:24px;
+letter-spacing:4px;
+}
+
+.hora{
+text-align:center;
+font-size:48px;
+}
+
+.hora span{
+display:block;
+font-size:24px;
+letter-spacing:4px;
+}
+
+.divisor{
+width:2px;
+height:70px;
+background:#333;
+}
+
+/* CONTADOR */
+
+.contador-box{
+position:absolute;
+top:340px;
+left:50%;
+transform:translateX(-50%);
+text-align:center;
+}
+
+.falta{
+font-size:22px;
+color:#777;
+margin-bottom:5px;
+}
+
+#contador{
+font-size:20px;
+font-weight:600;
+border-radius:20px;
+}
+
+.bloque-mapa{
+position:absolute;
+top:410px;
+left:20px;
+
+background:rgba(255,255,255,0.6);
+border-radius:16px;
+width:210px;
+}
+
+/* LUGAR */
+
+.lugar{
+width:fit-content;
+text-align:center;
+color:#2d2d2d;
+}
+
+.lugar #esc{
+margin-left:8px;
+margin-bottom: 2px;
+font-size:21px;
+letter-spacing:3px;
+font-weight:700;
+}
+
+.lugar #vei{
+font-size:20px;
+margin-top:2px;
+margin-bottom: 5px;
+}
+
+/* MAPA */
+
+.mapa-section {
+    width: 260px;
+}
+
+.mapa-section p {
+    margin-bottom: 8px;
+    font-size: 15px;
+    margin-left: 20px;
+    margin-top: 6px;
+}
+
+.mapa iframe{
+width:80%;
+height:80px;
+border:0;
+border-radius:12px;
+}
+
+
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="fondo.png" class="fondo">
+
+<!-- FECHA HORA -->
+
+<div class="fecha-hora">
+
+<div class="fecha">
+4
+<span>ABRIL</span>
+</div>
+
+<div class="divisor"></div>
+
+<div class="hora">
+22
+<span>HORAS</span>
+</div>
+
+</div>
+
+<!-- CONTADOR -->
+
+<div class="contador-box">
+<div class="falta">faltan</div>
+<div id="contador">27d 21h 51m 10s</div>
+</div>
+
+<div class="bloque-mapa">
+
+<!-- LUGAR -->
+
+<div class="lugar">
+<h3 id="esc">LA ESCAPADA</h3>
+<p id="vei">20 DE JUNIO</p>
+</div>
+
+<!-- MAPA -->
+
+<div class="mapa-section">
+
+<p>Hacé click en el mapa!</p>
+
+<div class="mapa">
+<iframe src="https://www.google.com/maps?q=La%20Escapada%20Club%20de%20Campo&amp;output=embed"></iframe>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const fechaEvento = new Date("Apr 4, 2026 21:00:00").getTime();
+
+const contador = setInterval(function(){
+
+const ahora = new Date().getTime();
+const distancia = fechaEvento - ahora;
+
+const dias = Math.floor(distancia / (1000*60*60*24));
+const horas = Math.floor((distancia % (1000*60*60*24)) / (1000*60*60));
+const minutos = Math.floor((distancia % (1000*60*60)) / (1000*60));
+const segundos = Math.floor((distancia % (1000*60)) / 1000);
+
+document.getElementById("contador").innerHTML =
+dias + "d " + horas + "h " + minutos + "m " + segundos + "s";
+
+if(distancia < 0){
+clearInterval(contador);
+document.getElementById("contador").innerHTML = "¡Es hoy!";
+}
+
+},1000);
+
+</script>
+
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+</body></html>
